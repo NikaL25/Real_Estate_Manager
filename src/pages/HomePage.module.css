@@ -1,17 +1,18 @@
 .homeContainer {
     margin: 0 auto;
-    width: 82.5%;
-    padding-top: 30px;
-    border: 5px solid black;
-    background-color: red;
-    height: 100px;
+    width: 82%;
+   
   }
 
 .logo {
   margin-top: 30px;
-   
+
+
   
 }
+
+  
+
 
 .homeLogo{
   background: url('../img/logo.png');
@@ -28,4 +29,206 @@
     margin-top: 36px;
     margin-bottom: 77px;
   }
+
+select{
+  border: 0px solid white;
+  margin-right: 15px ;
+}
   
+.homeSearch{
+  display: flex;
+  justify-content: space-between;
+}
+
+.homeSearchCategories{
+  display: flex;
+  align-items: center;
+  height: 47px;
+  width: 785px;
+}
+
+.addButtons{
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+  height: 47px;
+}
+
+.listButton{
+  display: flex;
+  justify-content: center;
+  width: 260px;
+  border: 0px solid black;
+  background-color: grey;
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  background-color: #F93B1D;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  cursor: pointer;
+  text-decoration: none;
+
+}
+
+.agentButton{
+  width: 220px;
+  border: 1px solid #F93B1D;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  color: #F93B1D;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  cursor: pointer;
+  text-decoration: none;
+ 
+}
+
+.homeRegionCategory{
+  width: 116px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+}
+.homeRegionCategory >select{
+  width: 116px;
+  height: 35px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  color: #021526;
+}
+
+.homePriceCategory{
+  width: 199px;
+  height: 35px;
+  margin-left: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.homePriceCategory > select{
+  width: 199px;
+  height: 35px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  color: #021526;
+  
+}
+
+
+.homeSquareCategory{
+  width: 124px;
+  height: 35px;
+  margin-left: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.homeSquareCategory > select{
+  width: 124px;
+  height: 35px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  color: #021526;
+}
+
+.homeNumberOfBedrooms{
+  width: 262px;
+  height: 35px;
+  margin-left: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.homeNumberOfBedrooms > select{
+  width: 262px;
+  height: 35px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  color: #021526;
+}
+
+.selectedCategory{
+  width: 553px;
+  height: 29px;
+  border: 1px solid black;
+  margin-top: 15px;
+}
+
+.cards{
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  height: 1000px;
+  flex-wrap: wrap; 
+  gap: 20px; /* Расстояние между карточками */
+  
+
+}
+
+.card{
+  width: 375px;
+  min-width: 375px;
+  min-height: 455px;
+  border: 0px solid black;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  
+}
+
+.cardPhoto img{
+  width: 99.8%;
+  height: 307px;
+  border: 0px solid black;
+  border-start-start-radius: 10px;
+  border-start-end-radius: 10px;
+}
+
+.cardDetails{
+  margin-left: 30px;
+}
+
+.cardPrice{
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 33.6px;
+  color: black;
+
+}
+
+.address{
+  color: #021526B2;
+  font-size: 16px;
+  font-weight: 400;
+  
+}
+
+.cardTerritory{
+  display: flex;
+
+}
+.cardBedroomsAndArea{
+  display: flex;
+  
+
+}
+.cardBedroomsAndArea p{
+  padding-right: 20px;
+}
