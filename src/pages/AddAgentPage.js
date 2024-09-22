@@ -54,12 +54,12 @@ function AddAgentPage({ addAgent }) {
         },
       });
 
-      console.log('Агент добавлен:', response.data);
+      console.log('აგენტი დაემატა:', response.data);
       addAgent({ ...formData, id: response.data.id });
       navigate('/'); // Перенаправляем на главную страницу после успешного добавления
     } catch (error) {
-      console.error('Ошибка при добавлении агента:', error.response ? error.response.data : error.message);
-      alert(`Ошибка при добавлении агента: ${error.response ? error.response.data.message : error.message}`);
+      console.error('error while adding agent:', error.response ? error.response.data : error.message);
+      alert(`შეცდომა აგენტის დამატებისას: ${error.response ? error.response.data.message : error.message}`);
     }
   };
 
@@ -101,7 +101,7 @@ function AddAgentPage({ addAgent }) {
           accept="image/*"
           onChange={handleChange}
         />
-        <button type="submit">Добавить агента</button>
+        <button type="submit">დაამატე აგენტი</button>
       </form>
     </div>
   );

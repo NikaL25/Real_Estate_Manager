@@ -10,17 +10,28 @@
 form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   gap: 15px; 
-  width: 100%;
-  max-width: 500px; 
+  min-width: 880px; 
+}
+p{
+  font-size: 16px;
+  font-weight: 500;
+}
+input{
+   margin-right: 10px;
+  
 }
 
-label {
+.listingRent{
+  margin-left: 80px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
+  justify-content: left;
+}
+
+.listingSelling{
+  display: flex;
+  justify-content: left;
 }
 
 input, select, textarea {
@@ -53,4 +64,17 @@ button:hover {
 h2 {
   margin-bottom: 20px;
   text-align: center;
+}
+
+
+.input{
+  min-width: 384px;
+  max-width: 384px;
+
+}
+
+.listingTerritory{
+  display: flex;
+  width: 100%;
+
 }

@@ -99,12 +99,13 @@ select{
 }
 .homeRegionCategory >select{
   width: 116px;
-  height: 35px;
+  height: 42px;
   text-align: center;
   font-size: 16px;
   font-weight: 500;
   line-height: 19.2px;
   color: #021526;
+  margin-left: 5px;
 }
 
 .homePriceCategory{
@@ -115,9 +116,10 @@ select{
   justify-content: center;
 }
 
+
 .homePriceCategory > select{
   width: 199px;
-  height: 35px;
+  height: 42px;
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -137,7 +139,7 @@ select{
 
 .homeSquareCategory > select{
   width: 124px;
-  height: 35px;
+  height: 42px;
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -155,7 +157,7 @@ select{
 
 .homeNumberOfBedrooms > select{
   width: 262px;
-  height: 35px;
+  height: 42px;
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -165,9 +167,8 @@ select{
 
 .selectedCategory{
   width: 553px;
-  height: 29px;
-  border: 1px solid black;
-  margin-top: 15px;
+  height: 32px;
+  margin-top: 20px;
 }
 
 .cards{
@@ -217,18 +218,20 @@ select{
   color: #021526B2;
   font-size: 16px;
   font-weight: 400;
-  
+  color: black;
 }
 
 .cardTerritory{
   display: flex;
-
+  color: black;
 }
 .cardBedroomsAndArea{
   display: flex;
+  color: black;
   
 
 }
 .cardBedroomsAndArea p{
   padding-right: 20px;
+  color: black;
 }

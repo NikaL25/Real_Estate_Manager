@@ -107,12 +107,12 @@ function AddListingPage({ addCard, agents }) {
         },
       });
 
-      console.log('Недвижимость добавлена:', response.data);
+      console.log('წარმატებულად დაემატა:', response.data);
       addCard({ ...formData, id: response.data.id });
       navigate('/');
     } catch (error) {
-      console.error('Ошибка при добавлении недвижимости:', error.response ? error.response.data : error.message);
-      alert(`Ошибка при добавлении недвижимости: ${error.response ? error.response.data.message : error.message}`);
+      console.error('შეცდომა:', error.response ? error.response.data : error.message);
+      alert(`დაფიქსირდა შეცდომა დამატების დროს: ${error.response ? error.response.data.message : error.message}`);
     }
   };
 
@@ -120,32 +120,70 @@ function AddListingPage({ addCard, agents }) {
     <div className={styles.container}>
 
       <h2>ლისტინგის დამატება</h2>
-      <form onSubmit={handleSubmit}>
-      <h3> გარიგების ტიპი </h3>
 
+      <form onSubmit={handleSubmit}>
+      <p>გარიგების ტიპი </p>
+        <div className={styles.listingSelling}> 
         <label>
-        <input
-          type="radio"
-          name="is_rental"
-          value="1"
-          checked={formData.is_rental === '1'}
-          onChange={() => setFormData({ ...formData, is_rental: '1' })}
-        />
-        ქირავდება
+          <input
+            type="radio"
+            name="is_rental"
+            value="1"
+            checked={formData.is_rental === '1'}
+            onChange={() => setFormData({ ...formData, is_rental: '1' })}
+            className={styles.inputRent}
+          />
+       
        </label>
-     
+       ქირავდება
+       <div className={styles.listingRent}>
       <label>
-        <input
+        <input 
+     
           type="radio"
           name="is_rental"
           value="0"
           checked={formData.is_rental === '0'}
           onChange={() => setFormData({ ...formData, is_rental: '0' })}
         />
-       იყიდება
+       
       </label>
+      იყიდება
+        </div>
+      </div>  
+
+   
+      <p>მდებარეობა </p>
+      <p>მისამართი</p>
+      <div className={styles.listingTerritory}>  
+         
+      <label>
+        <input
+              className={styles.input}
+              type="text"
+              name="address"
+              placeholder="მისამართი"
+              value={formData.address}
+              onChange={handleChange}
+            />
+        </label>
+        
+        <label> 
+              <input 
+                className={styles.input}
+                type="number"
+                name="area"
+                placeholder="ფართობი (м²)"
+                value={formData.area}
+                onChange={handleChange}
+              />
+        </label>
+    </div>
+
+
       <label> ფასი
         <input
+          className={styles.input}
           type="number"
           name="price"
           placeholder="ფასი"
@@ -154,6 +192,7 @@ function AddListingPage({ addCard, agents }) {
         />
         </label>
         <input
+          className={styles.input}
           type="text"
           name="zip_code"
           placeholder="საფოსტო ინდექსი"
@@ -166,13 +205,7 @@ function AddListingPage({ addCard, agents }) {
           value={formData.description}
           onChange={handleChange}
         ></textarea>
-        <input
-          type="number"
-          name="area"
-          placeholder="ფართობი (м²)"
-          value={formData.area}
-          onChange={handleChange}
-        />
+       
         <input
           type="text"
           name="city_id"
@@ -180,13 +213,7 @@ function AddListingPage({ addCard, agents }) {
           value={formData.city_id}
           onChange={handleChange}
         />
-        <input
-          type="text"
-          name="address"
-          placeholder="მისამართი"
-          value={formData.address}
-          onChange={handleChange}
-        />
+       
         <input
           type="number"
           name="bedrooms"

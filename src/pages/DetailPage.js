@@ -87,7 +87,7 @@ function DetailsPage({ realEstates, agents, removeCard }) {
             {agent && <img src={agent.avatar} alt={`${agent.name} ${agent.surname}`} style={{ width: '100px', height: '100px' }} />}
            </div>
             
-            <button className={styles.deleteBtn} onClick={handleDelete}>Удалить карточку</button>
+            <button className={styles.deleteBtn} onClick={handleDelete}>ლისტინგის წაშლა</button>
             </div>
         </div>
         </div>
