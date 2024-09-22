@@ -110,7 +110,7 @@ function App() {
         />
         <Route
           path="/add-agent"
-          element={<AddAgentPage addAgent={addAgent} />} /> {/* Исправлено имя пропса */}
+          element={<AddAgentPage addAgent={addAgent} />} />
       <Route
         path="/details/:id"
         element={<DetailPage realEstates={realEstates} agents={agents} removeCard={removeCard} />}
