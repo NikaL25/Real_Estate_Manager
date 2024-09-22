@@ -44,7 +44,7 @@ function AddAgentPage({ addAgent }) {
     formDataToSend.append('surname', formData.surname);
     formDataToSend.append('email', formData.email);
     formDataToSend.append('phone', formData.phone);
-    formDataToSend.append('avatar', formData.avatar); // Файл изображения
+    formDataToSend.append('avatar', formData.avatar); 
 
     try {
       const response = await axios.post('https://api.real-estate-manager.redberryinternship.ge/api/agents', formDataToSend, {
@@ -56,7 +56,7 @@ function AddAgentPage({ addAgent }) {
 
       console.log('აგენტი დაემატა:', response.data);
       addAgent({ ...formData, id: response.data.id });
-      navigate('/'); // Перенаправляем на главную страницу после успешного добавления
+      navigate('/'); 
     } catch (error) {
       console.error('error while adding agent:', error.response ? error.response.data : error.message);
       alert(`შეცდომა აგენტის დამატებისას: ${error.response ? error.response.data.message : error.message}`);

@@ -1,9 +1,8 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import AddListingPage from './pages/AddListingPage'; // Исправлена опечатка в пути
-import AddAgentPage from './pages/AddAgentPage'; // Новый компонент для добавления агентов
+import AddListingPage from './pages/AddListingPage'; 
+import AddAgentPage from './pages/AddAgentPage'; 
 import DetailPage from './pages/DetailPage';
 import axios from 'axios';
 import styles from './pages/HomePage.module.css';
@@ -13,9 +12,9 @@ import styles from './pages/HomePage.module.css';
 function App() {
   const [realEstates, setRealEstates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [agents, setAgents] = useState([]); // Добавлен state для агентов
+  const [agents, setAgents] = useState([]); 
 
-  // Загружаем данные из API при загрузке компонента
+  
   useEffect(() => {
     axios
       .get('https://api.real-estate-manager.redberryinternship.ge/api/real-estates', {
@@ -32,7 +31,6 @@ function App() {
       });
   }, []);
 
-  // Загружаем данные из localStorage при загрузке страницы
   useEffect(() => {
     const savedCards = JSON.parse(localStorage.getItem('realEstates')) || [];
     if (savedCards.length > 0) {
@@ -40,12 +38,10 @@ function App() {
     }
   }, []);
 
-  // Сохраняем карточки в localStorage при их изменении
   useEffect(() => {
     localStorage.setItem('realEstates', JSON.stringify(realEstates));
   }, [realEstates]);
 
-  // Загружаем список городов из API
   useEffect(() => {
     axios
       .get('https://api.real-estate-manager.redberryinternship.ge/api/cities', {
@@ -61,7 +57,6 @@ function App() {
       });
   }, []);
 
-  // Загружаем список агентов из API
   useEffect(() => {
     axios
       .get('https://api.real-estate-manager.redberryinternship.ge/api/agents', {
@@ -78,14 +73,12 @@ function App() {
       });
   }, []);
 
-  // Добавление новой карточки недвижимости
   const addCard = (newCard) => {
     const updatedRealEstates = [...realEstates, newCard];
     setRealEstates(updatedRealEstates);
     localStorage.setItem('realEstates', JSON.stringify(updatedRealEstates));
   };
 
-  // Добавление нового агента
   const addAgent = (newAgent) => {
     const updatedAgents = [...agents, newAgent];
     setAgents(updatedAgents);

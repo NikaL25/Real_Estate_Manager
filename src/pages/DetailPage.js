@@ -27,8 +27,8 @@ function DetailsPage({ realEstates, agents, removeCard }) {
                 },
             });
             alert('Карточка успешно удалена');
-            removeCard(parseInt(id)); // Удаление из состояния
-            navigate('/'); // Переход на главную страницу
+            removeCard(parseInt(id)); 
+            navigate('/'); 
         } catch (error) {
             console.error('Ошибка при удалении карточки:', error.response ? error.response.data : error.message);
             alert('Ошибка при удалении карточки. Попробуйте снова.');

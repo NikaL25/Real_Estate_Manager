@@ -94,10 +94,10 @@ function AddListingPage({ addCard, agents }) {
     formDataToSend.append('agent_id', formData.agent_id);
     formDataToSend.append('bedrooms', formData.bedrooms);
     formDataToSend.append('is_rental', formData.is_rental);
-    formDataToSend.append('image', formData.image); // файл изображения
-    formDataToSend.append('region_id', formData.region_id); // добавляем region_id
+    formDataToSend.append('image', formData.image); 
+    formDataToSend.append('region_id', formData.region_id); 
 
-    console.log('Form data to send:', formDataToSend); // Отладка
+    console.log('Form data to send:', formDataToSend); 
 
     try {
       const response = await axios.post('https://api.real-estate-manager.redberryinternship.ge/api/real-estates', formDataToSend, {
