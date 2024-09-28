@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import styles from './AddAgentPage.module.css'
 
 function AddAgentPage({ addAgent }) {
   const [formData, setFormData] = useState({
@@ -8,18 +9,17 @@ function AddAgentPage({ addAgent }) {
     surname: '',
     email: '',
     phone: '',
-    avatar: null, // Для загрузки файла изображения
+    avatar: null, 
   });
 
   const navigate = useNavigate();
 
-  // Обрабатываем изменения в полях
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'avatar') {
       setFormData({
         ...formData,
-        avatar: files[0], // Загружаем файл изображения
+        avatar: files[0], 
       });
     } else {
       setFormData({
@@ -29,11 +29,9 @@ function AddAgentPage({ addAgent }) {
     }
   };
 
-  // Обрабатываем отправку формы
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Проверка, что все поля заполнены
     if (!formData.name || !formData.surname || !formData.email || !formData.phone || !formData.avatar) {
       alert('Пожалуйста, заполните все поля.');
       return;
@@ -64,9 +62,12 @@ function AddAgentPage({ addAgent }) {
   };
 
   return (
-    <div>
-      <h2>ახალი აგენტის დამატებ</h2>
+    <div className={styles.container}>
+      
+      <p>აგენტის დამატება</p>
+    
       <form onSubmit={handleSubmit}>
+        <div className={styles.form}>
         <input
           type="text"
           name="name"
@@ -81,28 +82,35 @@ function AddAgentPage({ addAgent }) {
           value={formData.surname}
           onChange={handleChange}
         />
+        </div>
+      
+        <div className={styles.form}>
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder="ელ-ფოსტა"
           value={formData.email}
           onChange={handleChange}
         />
         <input
           type="text"
           name="phone"
-          placeholder="ტელეფონი"
+          placeholder="ტელეფონის ნომერი"
           value={formData.phone}
           onChange={handleChange}
         />
+           </div>
+
+           
         <input
+        className={styles.img}
           type="file"
           name="avatar"
           accept="image/*"
           onChange={handleChange}
         />
-        <button type="submit">დაამატე აგენტი</button>
-      </form>
+        <button className={styles.Btn} type="submit">დაამატე აგენტი</button>
+        </form>
     </div>
   );
 }

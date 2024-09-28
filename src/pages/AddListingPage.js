@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './AddListingPage.module.css';
 
@@ -14,90 +14,72 @@ function AddListingPage({ addCard, agents }) {
     agent_id: '',
     bedrooms: '',
     is_rental: '0',
-    image: null, // для загрузки изображения
-    region_id: '', // добавляем поле для региона
+    image: null,
+    region_id: '',
   });
-  
+
   const [newAgents, setNewAgents] = useState(agents || []);
-  const [regions, setRegions] = useState([]); // состояние для списка регионов
+  const [regions, setRegions] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [filteredCities, setFilteredCities] = useState([]);
+  const [loading, setLoading] = useState(false); // Loading state for fetching data
   const navigate = useNavigate();
 
-  // Получаем агентов
   useEffect(() => {
-    if (!agents || agents.length === 0) {
-      axios
-        .get('https://api.real-estate-manager.redberryinternship.ge/api/agents', {
-          headers: {
-            'accept': 'application/json',
-            'Authorization': 'Bearer 9d0ddfbb-cb6e-4617-b2f0-8480f96d7b37',
-          },
-        })
-        .then((response) => {
-          setNewAgents(response.data);
-        })
-        .catch((error) => {
-          console.error('Ошибка при получении агентов:', error);
-        });
-    }
+    const fetchData = async () => {
+      try {
+        const [agentsResponse, regionsResponse, citiesResponse] = await Promise.all([
+          axios.get('https://api.real-estate-manager.redberryinternship.ge/api/agents', {
+            headers: {
+              'accept': 'application/json',
+              'Authorization': 'Bearer 9d0ddfbb-cb6e-4617-b2f0-8480f96d7b37',
+            },
+          }),
+          axios.get('https://api.real-estate-manager.redberryinternship.ge/api/regions', {
+            headers: { 'accept': 'application/json' },
+          }),
+          axios.get('https://api.real-estate-manager.redberryinternship.ge/api/cities', {
+            headers: { 'accept': 'application/json' },
+          }),
+        ]);
+
+        setNewAgents(agentsResponse.data);
+        setRegions(regionsResponse.data);
+        setCities(citiesResponse.data);
+      } catch (error) {
+        console.error('error while fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, [agents]);
 
-  // Получаем регионы
-  useEffect(() => {
-    axios
-      .get('https://api.real-estate-manager.redberryinternship.ge/api/regions', {
-        headers: {
-          'accept': 'application/json',
-        },
-      })
-      .then((response) => {
-        setRegions(response.data);
-      })
-      .catch((error) => {
-        console.error('Ошибка при получении регионов:', error);
-      });
-  }, []);
-
-  // Обрабатываем изменения в полях
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    if (name === 'region_id') {
+      const filtered = cities.filter((city) => city.region_id === Number(value));
+      setFilteredCities(filtered);
+      setFormData((prev) => ({ ...prev, city_id: '' }));
+    }
+
     if (name === 'image') {
-      setFormData({
-        ...formData,
-        image: e.target.files[0], // для файлов
-      });
-      console.log('Selected image:', e.target.files[0]); // Проверка выбранного файла
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
     }
   };
 
-  // Отправка формы
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Проверка, что все поля заполнены
-    if (!formData.price || !formData.zip_code || !formData.description || !formData.area || !formData.city_id || !formData.address || !formData.agent_id || !formData.bedrooms || !formData.image || !formData.region_id) {
-      alert('Пожалуйста, заполните все поля.');
-      return;
-    }
+    setLoading(true);
 
     const formDataToSend = new FormData();
-    formDataToSend.append('price', formData.price);
-    formDataToSend.append('zip_code', formData.zip_code);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('area', formData.area);
-    formDataToSend.append('city_id', formData.city_id);
-    formDataToSend.append('address', formData.address);
-    formDataToSend.append('agent_id', formData.agent_id);
-    formDataToSend.append('bedrooms', formData.bedrooms);
-    formDataToSend.append('is_rental', formData.is_rental);
-    formDataToSend.append('image', formData.image); 
-    formDataToSend.append('region_id', formData.region_id); 
-
-    console.log('Form data to send:', formDataToSend); 
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
 
     try {
       const response = await axios.post('https://api.real-estate-manager.redberryinternship.ge/api/real-estates', formDataToSend, {
@@ -107,23 +89,32 @@ function AddListingPage({ addCard, agents }) {
         },
       });
 
-      console.log('წარმატებულად დაემატა:', response.data);
       addCard({ ...formData, id: response.data.id });
       navigate('/');
     } catch (error) {
-      console.error('შეცდომა:', error.response ? error.response.data : error.message);
-      alert(`დაფიქსირდა შეცდომა დამატების დროს: ${error.response ? error.response.data.message : error.message}`);
+      console.error('Error:', error.response ? error.response.data : error.message);
+      alert(`Error while adding: ${error.response ? error.response.data.message : error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={styles.container}>
-
-      <h2>ლისტინგის დამატება</h2>
-
-      <form onSubmit={handleSubmit}>
-      <p>გარიგების ტიპი </p>
-        <div className={styles.listingSelling}> 
+    <h2>ლისტინგის დამატება</h2>
+    <form onSubmit={handleSubmit}>
+      <p>გარიგების ტიპი</p>
+      <div className={styles.form}>
+        <label>
+          <input
+            type="radio"
+            name="is_rental"
+            value="0"
+            checked={formData.is_rental === '0'}
+            onChange={() => setFormData({ ...formData, is_rental: '0' })}
+          />
+          იყიდება
+        </label>
         <label>
           <input
             type="radio"
@@ -131,66 +122,21 @@ function AddListingPage({ addCard, agents }) {
             value="1"
             checked={formData.is_rental === '1'}
             onChange={() => setFormData({ ...formData, is_rental: '1' })}
-            className={styles.inputRent}
           />
-       
-       </label>
-       ქირავდება
-       <div className={styles.listingRent}>
-      <label>
-        <input 
-     
-          type="radio"
-          name="is_rental"
-          value="0"
-          checked={formData.is_rental === '0'}
-          onChange={() => setFormData({ ...formData, is_rental: '0' })}
-        />
-       
-      </label>
-      იყიდება
-        </div>
-      </div>  
-
-   
-      <p>მდებარეობა </p>
-      <p>მისამართი</p>
-      <div className={styles.listingTerritory}>  
-         
-      <label>
-        <input
-              className={styles.input}
-              type="text"
-              name="address"
-              placeholder="მისამართი"
-              value={formData.address}
-              onChange={handleChange}
-            />
+          ქირავდება
         </label>
-        
-        <label> 
-              <input 
-                className={styles.input}
-                type="number"
-                name="area"
-                placeholder="ფართობი (м²)"
-                value={formData.area}
-                onChange={handleChange}
-              />
-        </label>
-    </div>
-
-
-      <label> ფასი
+      </div>
+  
+      <p>მდებარეობა</p>
+      <div className={styles.inputPair}>
         <input
           className={styles.input}
-          type="number"
-          name="price"
-          placeholder="ფასი"
-          value={formData.price}
+          type="text"
+          name="address"
+          placeholder="მისამართი"
+          value={formData.address}
           onChange={handleChange}
         />
-        </label>
         <input
           className={styles.input}
           type="text"
@@ -199,56 +145,110 @@ function AddListingPage({ addCard, agents }) {
           value={formData.zip_code}
           onChange={handleChange}
         />
-        <textarea
-          name="description"
-          placeholder="აღწერა"
-          value={formData.description}
+      </div>
+  
+      <div className={styles.inputPair}>
+        <select
+          name="region_id"
+          value={formData.region_id}
           onChange={handleChange}
-        ></textarea>
-       
-        <input
-          type="text"
-          name="city_id"
-          placeholder="ID ქალაქის"
-          value={formData.city_id}
-          onChange={handleChange}
-        />
-       
-        <input
-          type="number"
-          name="bedrooms"
-          placeholder="საძინებლები"
-          value={formData.bedrooms}
-          onChange={handleChange}
-        />
-        <select name="agent_id" value={formData.agent_id} onChange={handleChange}>
-          <option value="">აგენტის არჩევა</option>
-          {newAgents.map((agent) => (
-            <option key={agent.id} value={agent.id}>
-              {agent.name} {agent.surname}
-            </option>
-          ))}
-        </select>
-
-        {/* Добавляем селектор для выбора региона */}
-        <select name="region_id" value={formData.region_id} onChange={handleChange}>
-          <option value="">რეგიონის არჩევა</option>
+          className={styles.input}
+        >
+          <option value="">რეგიონი</option>
           {regions.map((region) => (
             <option key={region.id} value={region.id}>
               {region.name}
             </option>
           ))}
         </select>
-
+        <select
+          name="city_id"
+          value={formData.city_id}
+          onChange={handleChange}
+          className={styles.input}
+        >
+          <option value="">ქალაქი</option>
+          {filteredCities.map((city) => (
+            <option key={city.id} value={city.id}>
+              {city.name}
+            </option>
+          ))}
+        </select>
+      </div>
+  
+      <div className={styles.inputPair}>
+        <input
+          className={styles.input}
+          type="number"
+          name="price"
+          placeholder="ფასი"
+          value={formData.price}
+          onChange={handleChange}
+        />
+        <input
+          className={styles.input}
+          type="number"
+          name="area"
+          placeholder="ფართობი"
+          value={formData.area}
+          onChange={handleChange}
+        />
+      </div>
+  
+      <div className={styles.inputPair}>
+        <input
+          className={styles.input}
+          type="number"
+          name="bedrooms"
+          placeholder="საძინებლების რაოდენობა"
+          value={formData.bedrooms}
+          onChange={handleChange}
+        />
+     
+      </div>
+      <textarea
+          name="description"
+          placeholder="აღწერა"
+          value={formData.description}
+          onChange={handleChange}
+          className={styles.textarea}
+        ></textarea>
+      
+      <div className={styles.inputPair}>
         <input
           type="file"
           name="image"
+          placeholder="ატვირთეთ ფოტო"
           onChange={handleChange}
         />
- 
-        <button type="submit">დამატება</button>
-      </form>
-    </div>
+      </div>
+  
+      <div className={styles.inputPair}>
+        <select
+          name="agent_id"
+          value={formData.agent_id}
+          onChange={handleChange}
+          className={styles.input}
+        >
+          <option value="">აგენტი</option>
+          {newAgents.map((agent) => (
+            <option key={agent.id} value={agent.id}>
+              {agent.name} {agent.surname}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <Link className={styles.BtnBack} to='/'  disabled={loading}>
+       <div>გაუქმება</div>
+      </Link>
+
+      <button type="submit" disabled={loading}>
+        {loading ? 'Loading...' : 'ლისტინგის დამატება'}
+      </button>
+    </form>
+  </div>
+  
   );
 }
 

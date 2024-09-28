@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AddListingPage from './pages/AddListingPage'; 

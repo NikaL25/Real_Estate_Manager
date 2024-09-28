@@ -1,0 +1,46 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+}
+.container p{
+    font-size: 32px;
+}
+
+.container form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form input{
+    width: 374px;
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    margin: 15px;
+}
+.Btn{
+    position: absolute;
+    bottom: 70px;
+    right: 55px;
+    width: 167px;
+    height: 47px;
+    background-color: #F93B1D;
+    color: white;
+    font-size: 16px;
+
+}
+.container .img{
+    height: 100px;
+    width: 780px;
+    border: 2px dashed #2D3648;
+    margin-top: 20px;
+}

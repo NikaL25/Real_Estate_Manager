@@ -1,62 +1,210 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './HomePage.module.css';
+import ModalAgentPage from './ModalAgentPage';
+import './Modal.module.css' 
+import AddAgentPage from './AddAgentPage';
 
-function HomePage({ realEstates, cities }) {
+function HomePage({ realEstates, cities: initialCities }) {
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [minArea, setMinArea] = useState('');
+  const [maxArea, setMaxArea] = useState('');
+  const [bedrooms, setBedrooms] = useState('');
+  const [regions, setRegions] = useState([]);
+  const [cities, setCities] = useState(initialCities); // Use the initialCities prop
+  const [formData, setFormData] = useState({
+    region_id: '',
+  });
+
+  // Fetch regions from API
+  useEffect(() => {
+    const fetchRegions = async () => {
+      try {
+        const response = await axios.get('https://api.real-estate-manager.redberryinternship.ge/api/regions', {
+          headers: {
+            'accept': 'application/json',
+          },
+        });
+        setRegions(response.data);
+      } catch (error) {
+        console.error('Error fetching regions:', error);
+      }
+    };
+    fetchRegions();
+  }, []);
+
+  // Fetch cities from API
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await axios.get('https://api.real-estate-manager.redberryinternship.ge/api/cities', {
+          headers: {
+            'accept': 'application/json',
+          },
+        });
+        setCities(response.data);
+      } catch (error) {
+        console.error('Error fetching cities:', error); // Updated to cities
+      }
+    };
+    fetchCities();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const filteredRealEstates = useMemo(() => {
+    return realEstates.filter((estate) => {
+      const price = parseInt(estate.price, 10);
+      const area = parseFloat(estate.area);
+      const isInPriceRange = (minPrice ? price >= parseInt(minPrice, 10) : true) &&
+                             (maxPrice ? price <= parseInt(maxPrice, 10) : true);
+      const isInAreaRange = (minArea ? area >= parseFloat(minArea) : true) &&
+                             (maxArea ? area <= parseFloat(maxArea) : true);
+      const matchesBedrooms = (bedrooms ? estate.bedrooms === parseInt(bedrooms, 10) : true);
+      const matchesRegion = (formData.region_id ? estate.city.region_id === parseInt(formData.region_id, 10) : true); // Filter by region
+
+      return isInPriceRange && isInAreaRange && matchesBedrooms && matchesRegion;
+    });
+  }, [realEstates, minPrice, maxPrice, minArea, maxArea, bedrooms, formData.region_id]);
+
+
+
+
+
+ 
+
+  
+  const [selectedPriceFilter, setSelectedPriceFilter] = useState('');
+  const [selectedAreaFilter, setSelectedAreaFilter] = useState('');
+  const [selectedBedroomsFilter, setSelectedBedroomsFilter] = useState('');
+
+  const handlePriceSelectChange = (e) => {
+    setSelectedPriceFilter(e.target.value);
+  };
+
+  const handleAreaSelectChange = (e) => {
+    setSelectedAreaFilter(e.target.value);
+  };
+
+  const handleBedroomsSelectChange = (e) => {
+    setSelectedBedroomsFilter(e.target.value);
+  };
+
+
+  const [modalInfoIsOpen, setModalInfoIsOpen] = useState(false)
+
   return (
-   
-
     <>
-        <div className={styles.homeSearch}>
-          <div className={styles.homeSearchCategories}>
-            <div className={styles.homeRegionCategory}>
-              <select>
-                <option value="region">რეგიონი</option>
-                <option value="Fruits">test</option>
-                
-               
-              </select>
-            </div>
-            <div className={styles.homePriceCategory}>
-              <select>
-                <option value="priceCategory">საფასო კატეგორია</option>
-                <option value="Fruits">test</option>
-               
-              
-              </select>
-            </div>
-            <div className={styles.homeSquareCategory}>
-              <select>
-                <option value="squareCategory">ფართობი</option>
-                <option value="Fruits">test</option>
-                
-              </select>
-            </div>
-            <div className={styles.homeNumberOfBedrooms}>
-              <select>
-                <option value="numberOfBedrooms">საძინებლების რაოდენობა</option>
-                <option value="Fruits">test</option>
-              
-              </select>
-            </div>
+      <div className={styles.homeSearch}>
+        <div className={styles.homeSearchCategories}>
+          <div className={styles.homeRegionCategory}>
+            <select name="region_id" value={formData.region_id} onChange={handleChange}>
+              <option value="">რეგიონის არჩევა</option>
+              {regions.map((region) => (
+                <option key={region.id} value={region.id}>
+                  {region.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-          <div className={styles.addButtons}>
-            <Link className={styles.listButton} to="/add-listing">
-              <div>+ ლისტინგის დამატება</div>
-            </Link>
-            <Link className={styles.agentButton} to="/add-agent">
-              <div>+ აგენტის დამატება</div>
-            </Link>
+          <div className={styles.priceFilter}>
+        <select onChange={handlePriceSelectChange} value={selectedPriceFilter}>
+          <option value="">საფასო კატეგორია</option>
+          <option value="price">ფასის მიხედვით</option>
+        </select>
+
+        {selectedPriceFilter === 'price' && (
+          <div className={styles.inputContainer}>
+            <input
+              type="number"
+              placeholder="დან"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="მდე"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+            />
           </div>
+        )}
+      </div>
+
+      <div className={styles.areaFilter}>
+        <select onChange={handleAreaSelectChange} value={selectedAreaFilter}>
+          <option value="">ფართობი</option>
+          <option value="area">ფართობის მიხედვით</option>
+        </select>
+
+        {selectedAreaFilter === 'area' && (
+          <div className={styles.inputContainer}>
+            <input
+              type="number"
+              placeholder="დან"
+              value={minArea}
+              onChange={(e) => setMinArea(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="მდე"
+              value={maxArea}
+              onChange={(e) => setMaxArea(e.target.value)}
+            />
+          </div>
+        )}
+      </div>
+
+      <div className={styles.bedroomsFilter}>
+        <select onChange={handleBedroomsSelectChange} value={selectedBedroomsFilter}>
+          <option value="">საძინებლების რაოდენობა</option>
+          <option value="bedrooms">ბედრუმების რაოდენობა</option>
+        </select>
+
+        {selectedBedroomsFilter === 'bedrooms' && (
+          <div className={styles.inputContainer}>
+            <input
+              type="number"
+              placeholder="საძინებლების რაოდენობა"
+              value={bedrooms}
+              onChange={(e) => setBedrooms(e.target.value)}
+              aria-label="Bedrooms"
+            />
+          </div>
+        )}
+      </div>
+    </div>
+
+        <div className={styles.addButtons}>
+          <Link className={styles.listButton} to="/add-listing">
+            <div>+ ლისტინგის დამატება</div>
+          </Link>
+          <button className={styles.agentButton}  onClick={() => setModalInfoIsOpen(true)}>
+            <div>+ აგენტის დამატება</div>
+          </button>
+
+          <ModalAgentPage
+            isOpen={modalInfoIsOpen}
+            onClose={() => setModalInfoIsOpen(false)}
+          >
+            <AddAgentPage />
+          </ModalAgentPage>
+      
         </div>
+      </div>
 
-        <div className={styles.selectedCategory}></div>
+      <div className={styles.selectedCategory}></div>
 
-        <div className={styles.cards}>
-          {realEstates.length > 0 ? (
-            realEstates.map((estate) => (
-              <Link key={estate.id} to={`/details/${estate.id}`} className={styles.card}>
+      <div className={styles.cards}>
+        {filteredRealEstates.length > 0 ? (
+          filteredRealEstates.map((estate) => (
+            <Link key={estate.id} to={`/details/${estate.id}`} className={styles.card}>
               <div className={styles.cardPhoto}>
                 <img src={estate.image} alt={estate.address} />
               </div>
@@ -64,10 +212,10 @@ function HomePage({ realEstates, cities }) {
                 <div className={styles.cardPriceAndLocation}>
                   <p className={styles.cardPrice}>{estate.price} ₾</p>
                   <div className={styles.cardTerritory}>
-                    <p className={styles.address}><svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M2.05025 2.05025C4.78392 -0.683417 9.21608 -0.683418 11.9497 2.05025C14.6834 4.78392 14.6834 9.21608 11.9497 11.9497L7 16.8995L2.05025 11.9497C-0.683418 9.21608 -0.683418 4.78392 2.05025 2.05025ZM7 9C8.10457 9 9 8.10457 9 7C9 5.89543 8.10457 5 7 5C5.89543 5 5 5.89543 5 7C5 8.10457 5.89543 9 7 9Z" fill="#021526" fill-opacity="0.5"/>
+                    <p className={styles.address}>
+                      <svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M2.05025 2.05025C4.78392 -0.683417 9.21608 -0.683418 11.9497 2.05025C14.6834 4.78392 14.6834 9.21608 11.9497 11.9497L7 16.8995L2.05025 11.9497C-0.683418 9.21608 -0.683418 4.78392 2.05025 2.05025ZM7 9C8.10457 9 9 8.10457 9 7C9 5.89543 8.10457 5 7 5C5.89543 5 5 5.89543 5 7C5 8.10457 5.89543 9 7 9Z" fill="#021526" fillOpacity="0.5" />
                       </svg>
-
                       {cities.find((city) => city.id === estate.city_id)?.name || 'Неизвестный город'}, {estate.address}
                     </p>
                   </div>

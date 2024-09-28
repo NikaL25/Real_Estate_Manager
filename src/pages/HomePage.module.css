@@ -72,7 +72,36 @@ select{
   text-decoration: none;
 
 }
-
+.priceSelect{
+  height: 500px;
+  border: 1px solid black;
+}
+.priceFilter{
+  margin-top: 15px;
+  display: flex;
+ 
+}
+.priceFilter input{
+  height: 27px;
+  margin-right: 10px;
+  border: 1px solid white;
+}
+.areaFilter{
+  display: flex;
+  margin-top: 15px;
+}
+.areaFilter input {
+  height: 27px;
+  margin-right: 10px;
+  border: 1px solid white;
+}
+.bedroomsFilter{
+  margin-top: 15px;
+}
+.bedroomsFilter input{
+  height: 27px;
+  border: 1px solid white;
+}
 .agentButton{
   width: 220px;
   border: 1px solid #F93B1D;
@@ -88,18 +117,21 @@ select{
   line-height: 19.2px;
   cursor: pointer;
   text-decoration: none;
- 
+  height: 50px;
+  position: absolute;
+  top:145px;
+  right: 180px;
 }
 
 .homeRegionCategory{
   width: 116px;
-  height: 35px;
+  height: 30px;
   display: flex;
   justify-content: center;
 }
 .homeRegionCategory >select{
   width: 116px;
-  height: 42px;
+  height: 40px;
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -177,7 +209,7 @@ select{
   display: flex;
   height: 1000px;
   flex-wrap: wrap; 
-  gap: 20px; /* Расстояние между карточками */
+  gap: 20px; 
   
 
 }

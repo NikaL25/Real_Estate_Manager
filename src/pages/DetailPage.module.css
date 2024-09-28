@@ -1,3 +1,5 @@
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
 .detailContainer {
   max-width: 800px;
   margin: 20px auto;
@@ -77,8 +79,11 @@
 }
 
 .deleteBtn{
-    margin-top: 20px;
-    width: 131px;
+    position: absolute;
+    bottom: 60px;
+    left: 1080px;
+    min-width: 131px;
+    max-width: 146px;
     height: 34px;
     border: 2px solid #676E76;
     font-size: 12px;
@@ -86,4 +91,331 @@
     border-radius: 5px;
     color: #676E76;
     background-color: white;
+}
+
+.homeContainer {
+    margin: 0 auto;
+    width: 82%;
+   
+  }
+
+.logo {
+  margin-top: 30px;
+
+
+  
+}
+
+  
+
+
+.homeLogo{
+  background: url('../img/logo.png');
+  background-position: cover;
+  background-repeat: no-repeat;
+   margin-left: 164px;
+   
+ 
+}
+  
+.line {
+    border: 1px solid grey;
+    width: 100%;
+    margin-top: 36px;
+    margin-bottom: 77px;
+  }
+
+select{
+  border: 0px solid white;
+  margin-right: 15px ;
+}
+  
+.homeSearch{
+  display: flex;
+  justify-content: space-between;
+}
+
+.homeSearchCategories{
+  display: flex;
+  align-items: center;
+  height: 47px;
+  width: 785px;
+}
+
+.addButtons{
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+  height: 47px;
+}
+
+.listButton{
+  display: flex;
+  justify-content: center;
+  width: 260px;
+  border: 0px solid black;
+  background-color: grey;
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  background-color: #F93B1D;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  cursor: pointer;
+  text-decoration: none;
+
+}
+.priceSelect{
+  height: 500px;
+  border: 1px solid black;
+}
+.priceFilter{
+  margin-top: 15px;
+  display: flex;
+ 
+}
+.priceFilter input{
+  height: 27px;
+  margin-right: 10px;
+  border: 1px solid white;
+}
+.areaFilter{
+  display: flex;
+  margin-top: 15px;
+}
+.areaFilter input {
+  height: 27px;
+  margin-right: 10px;
+  border: 1px solid white;
+}
+.bedroomsFilter{
+  margin-top: 15px;
+}
+.bedroomsFilter input{
+  height: 27px;
+  border: 1px solid white;
+}
+.agentButton{
+  width: 220px;
+  border: 1px solid #F93B1D;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  color: #F93B1D;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  cursor: pointer;
+  text-decoration: none;
+  height: 50px;
+  position: absolute;
+  top:145px;
+  right: 180px;
+}
+
+.homeRegionCategory{
+  width: 116px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+}
+.homeRegionCategory >select{
+  width: 116px;
+  height: 40px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  color: #021526;
+  margin-left: 5px;
+}
+
+.homePriceCategory{
+  width: 199px;
+  height: 35px;
+  margin-left: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.homePriceCategory > select{
+  width: 199px;
+  height: 42px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  color: #021526;
+  
+}
+
+
+.homeSquareCategory{
+  width: 124px;
+  height: 35px;
+  margin-left: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.homeSquareCategory > select{
+  width: 124px;
+  height: 42px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  color: #021526;
+}
+
+.homeNumberOfBedrooms{
+  width: 262px;
+  height: 35px;
+  margin-left: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.homeNumberOfBedrooms > select{
+  width: 262px;
+  height: 42px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
+  color: #021526;
+}
+
+.selectedCategory{
+  width: 553px;
+  height: 32px;
+  margin-top: 20px;
+}
+
+
+.card{
+ width: 100px;
+  width: 175px;
+  min-width: 375px;
+  min-height: 455px;
+  border: 0px solid black;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  
+}
+
+.cardPhoto img{
+  width: 99.8%;
+  height: 307px;
+  border: 0px solid black;
+  border-start-start-radius: 10px;
+  border-start-end-radius: 10px;
+}
+
+.cardDetails{
+  margin-left: 30px;
+}
+
+.cardPrice{
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 33.6px;
+  color: black;
+
+}
+
+.address{
+  color: #021526B2;
+  font-size: 16px;
+  font-weight: 400;
+  color: black;
+}
+
+.cardTerritory{
+  display: flex;
+  color: black;
+}
+.cardBedroomsAndArea{
+  display: flex;
+  color: black;
+  
+
+}
+.cardBedroomsAndArea p{
+  padding-right: 20px;
+  color: black;
+}
+
+
+.carousel {
+    display: flex;
+    /* Позволяет горизонтальную прокрутку */
+    height: 445px; /* Высота карусели */
+    width: 100%;
+    height: 500px;
+}
+
+
+
+.card {
+    width: 300px; /* Или другая желаемая ширина */
+    height: 140px; /* Или другая желаемая высота */
+    margin: 10px; /* Отступы для визуального разделения карточек */
+    box-sizing: border-box; /* Учитывает padding и border */
+    background-color: #fff; /* Добавьте цвет фона для видимости */
+    display: flex; /* Для вертикального центрирования содержимого */
+    flex-direction: column; /* Выравнивание содержимого внутри карточки */
+}
+
+.agent{
+    height: 160px;
+    width: 100%;
+    display: flex;
+    margin-top: 25px;
+}
+
+.agentImg{
+    height: 90px;
+    width: 90px;
+    border: 1px solid black;
+    border-radius: 50px;
+    display: flex;
+    margin-left: 10px;
+}
+
+.deleteButton{
+    position: absolute;
+    top: 800px;
+    height: 30px;
+    left: 1077px;
+    width: 145px;
+    background-color: white;
+    color: #676E76;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #676E76;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+
+.descr{
+    height: 78px;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 1100px;
 }
